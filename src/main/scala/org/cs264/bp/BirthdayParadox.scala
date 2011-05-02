@@ -2,17 +2,23 @@ package org.cs264.bp
 
 import util.Random
 import org.joda.time.DateTime
+import net.rfas.GridMethods._
 
 object BirthdayParadox {
-  val NUM_OF_TRIALS = 100000
+  val NUM_OF_TRIALS = 10000
   val rand = new Random(System.currentTimeMillis)
 
   def main(args: Array[String]) = {
-    var numOfMatches = 0
-    for (i <- 1 to NUM_OF_TRIALS) {
-      if (simulate(23)) numOfMatches += 1
-    }
-    println(numOfMatches)
+    val l = (2 to 100).toList
+    val gl = l.grid
+    val results = gl.map(run(_))
+    val percentages = results.map(_ / NUM_OF_TRIALS.toFloat * 100)
+    println(percentages)
+  }
+
+  private def run(groupSize: Int) = {
+    val matches = for (i <- 1 to NUM_OF_TRIALS) yield simulate(groupSize)
+    matches.count(_ == true)
   }
 
   private def simulate(groupSize: Int) = {
