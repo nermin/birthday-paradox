@@ -3,9 +3,10 @@ package org.cs264.bp
 import util.Random
 import org.joda.time.DateTime
 import net.rfas.GridMethods._
+import java.io.{FileWriter, PrintWriter}
 
 object BirthdayParadox {
-  val NUM_OF_TRIALS = 10000
+  val NUM_OF_TRIALS = 100
   val rand = new Random(System.currentTimeMillis)
 
   def main(args: Array[String]) = {
@@ -14,6 +15,26 @@ object BirthdayParadox {
     val results = gl.map(run(_))
     val percentages = results.map(_ / NUM_OF_TRIALS.toFloat * 100)
     println(percentages)
+    writeCSV(l, percentages)
+  }
+
+  private def writeCSV(groupSizes: List[Int], percentages: List[Float]) = {
+    var pw: Option[PrintWriter] = None
+    try {
+      pw = Some(new PrintWriter(new FileWriter("output.csv")))
+      val apw = pw.get
+      apw.println("Group size, Probability")
+      val data = groupSizes.zip(percentages)
+      for (entry <- data) {
+        apw.print(entry._1)
+        apw.print(",")
+        apw.printf("%5.2f", entry._2.asInstanceOf[AnyRef])
+        apw.println
+      }
+      apw.flush
+    } finally {
+      if (pw.isDefined) pw.get.close
+    }
   }
 
   private def run(groupSize: Int) = {
