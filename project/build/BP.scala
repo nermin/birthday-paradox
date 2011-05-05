@@ -1,6 +1,6 @@
 import java.io.File
 import sbt._
-class BP (info: ProjectInfo) extends DefaultProject(info) {
+class BP (info: ProjectInfo) extends DefaultProject(info) with assembly.AssemblyBuilder {
   override def mainClass = Some("org.cs264.bp.BirthdayParadox")
   val zmqLib = new File("/usr/local/share/java/zmq.jar")
   val zmqLibPath = Path.fromFile(zmqLib)

@@ -14,8 +14,8 @@ object BirthdayParadox {
     val gl = l.grid
     val results = gl.map(run(_))
     val percentages = results.map(_ / NUM_OF_TRIALS.toFloat * 100)
-    println(percentages)
     writeCSV(l, percentages)
+    System.exit(0)
   }
 
   private def writeCSV(groupSizes: List[Int], percentages: List[Float]) = {
