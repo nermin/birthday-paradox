@@ -12,9 +12,12 @@ object BirthdayParadox {
     val numOfTrials = args(0).toInt
     val l = (2 to 100).toList
     val gl = l.grid
+    val startTime = System.currentTimeMillis
     val results = gl.map(run(_, numOfTrials))
+    val endTime = System.currentTimeMillis
     val percentages = results.map(_ / numOfTrials.toFloat * 100)
     writeCSV(l, percentages)
+    println("Total time: " + (endTime - startTime)/1000F + "s.")
     System.exit(0)
   }
 
