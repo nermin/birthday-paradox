@@ -6,14 +6,14 @@ import net.rfas.GridMethods._
 import java.io.{FileWriter, PrintWriter}
 
 object BirthdayParadox {
-  val NUM_OF_TRIALS = 100
   val rand = new Random(System.currentTimeMillis)
 
   def main(args: Array[String]) = {
+    val numOfTrials = args(0).toInt
     val l = (2 to 100).toList
     val gl = l.grid
-    val results = gl.map(run(_))
-    val percentages = results.map(_ / NUM_OF_TRIALS.toFloat * 100)
+    val results = gl.map(run(_, numOfTrials))
+    val percentages = results.map(_ / numOfTrials.toFloat * 100)
     writeCSV(l, percentages)
     System.exit(0)
   }
@@ -37,8 +37,8 @@ object BirthdayParadox {
     }
   }
 
-  private def run(groupSize: Int) = {
-    val matches = for (i <- 1 to NUM_OF_TRIALS) yield simulate(groupSize)
+  private def run(groupSize: Int, numOfTrials: Int) = {
+    val matches = for (i <- 1 to numOfTrials) yield simulate(groupSize)
     matches.count(_ == true)
   }
 
